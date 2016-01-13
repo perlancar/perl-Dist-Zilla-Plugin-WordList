@@ -57,6 +57,7 @@ sub munge_files {
                     $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
                     $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/;
                     my $len = length($word);
+                    $total_len += $len;
                     $stats{shortest_word_len} = $len
                         if !defined($stats{shortest_word_len}) ||
                         $len < $stats{shortest_word_len};
@@ -64,6 +65,7 @@ sub munge_files {
                         if !defined($stats{longest_word_len}) ||
                         $len > $stats{longest_word_len};
                 });
+            $stats{avg_word_len} = $total_len / $stats{num_words} if $total_len;
 
             $content =~ s{^(#\s*STATS)$}{"our \%STATS = ".dmp(%stats)."; " . $1}em
                 or die "Can't replace #STATS for ".$file->name.", make sure you put the #STATS placeholder in modules";
