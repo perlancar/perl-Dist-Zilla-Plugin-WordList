@@ -3,7 +3,7 @@ package Dist::Zilla::Plugin::WordList;
 # DATE
 # VERSION
 
-use 5.010001;
+use 5.014;
 use strict;
 use warnings;
 
@@ -11,7 +11,6 @@ use Moose;
 use namespace::autoclean;
 
 use Data::Dmp;
-#use Encode qw(is_utf8);
 
 with (
     'Dist::Zilla::Role::FileMunger',
@@ -55,7 +54,7 @@ sub munge_files {
                     $stats{num_words}++;
                     $stats{num_words_contains_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
                     $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
-                    $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/;
+                    $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/u;
                     my $len = length($word);
                     $total_len += $len;
                     $stats{shortest_word_len} = $len
