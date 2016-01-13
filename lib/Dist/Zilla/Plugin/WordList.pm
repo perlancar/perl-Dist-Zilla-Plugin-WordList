@@ -11,7 +11,7 @@ use Moose;
 use namespace::autoclean;
 
 use Data::Dmp;
-use Encode qw(is_utf8);
+#use Encode qw(is_utf8);
 
 with (
     'Dist::Zilla::Role::FileMunger',
@@ -53,7 +53,7 @@ sub munge_files {
                 sub {
                     my $word = shift;
                     $stats{num_words}++;
-                    $stats{num_words_contains_unicode}++ if is_utf8($word);
+                    $stats{num_words_contains_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
                     $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
                     $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/;
                     my $len = length($word);
