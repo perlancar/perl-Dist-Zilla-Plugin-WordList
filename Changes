@@ -1,5 +1,10 @@
 Revision history for Dist-Zilla-Plugin-WordList
 
+0.02    2016-01-13 (PERLANCAR)
+
+	- Add avg_word_len to statistics.
+
+
 0.01    2016-01-13 (PERLANCAR)
 
         - First release.
