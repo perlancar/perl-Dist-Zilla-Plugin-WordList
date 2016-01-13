@@ -33,6 +33,8 @@ sub munge_files {
         my $package_pm = $1;
         my $package = $2; $package =~ s!/!::!g;
 
+        my $content = $file->content;
+
         # Add statistics to %STATS variable
         {
             require $package_pm;
@@ -52,20 +54,20 @@ sub munge_files {
                     my $word = shift;
                     $stats{num_words}++;
                     $stats{num_words_contains_unicode}++ if is_utf8($word);
-                    $stats{num_words_contains_whitespace}++ if $word =~ /\S/;
+                    $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
                     $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/;
                     my $len = length($word);
                     $stats{shortest_word_len} = $len
                         if !defined($stats{shortest_word_len}) ||
                         $len < $stats{shortest_word_len};
-                    $stats{longest_word_len} = $len if
+                    $stats{longest_word_len} = $len
                         if !defined($stats{longest_word_len}) ||
                         $len > $stats{longest_word_len};
                 });
-            $content =~ s{^(#\s*STATS)$}{"our %STATS = ".dmp(%stats)."; " . $1}em
-                or die "Can't replace #STATS for " . $file->name;
-            $self->log(["replacing #STATS for %s (%s)",
-                        $file->name, $abstract]);
+
+            $content =~ s{^(#\s*STATS)$}{"our \%STATS = ".dmp(%stats)."; " . $1}em
+                or die "Can't replace #STATS for ".$file->name.", make sure you put the #STATS placeholder in modules";
+            $self->log(["replacing #STATS for %s", $file->name]);
 
             $file->content($content);
         }
