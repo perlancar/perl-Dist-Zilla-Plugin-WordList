@@ -19,6 +19,11 @@ with (
     },
 );
 
+sub __length_in_graphemes {
+    my $length = () = $_[0] =~ m/\X/g;
+    return $length;
+}
+
 sub munge_files {
     no strict 'refs';
     my $self = shift;
@@ -55,7 +60,7 @@ sub munge_files {
                     $stats{num_words_contains_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
                     $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
                     $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/u;
-                    my $len = length($word);
+                    my $len = __length_in_graphemes($word);
                     $total_len += $len;
                     $stats{shortest_word_len} = $len
                         if !defined($stats{shortest_word_len}) ||
