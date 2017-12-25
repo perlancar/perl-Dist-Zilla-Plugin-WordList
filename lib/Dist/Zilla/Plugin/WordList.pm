@@ -53,9 +53,21 @@ sub munge_files {
                 shortest_word_len => undef,
                 longest_word_len => undef,
             );
+            my $last_word;
             $wl->each_word(
                 sub {
                     my $word = shift;
+
+                    # check that word is sorted
+                    if (defined $last_word) {
+                        if ($last_word eq $word) {
+                            die "Duplicate entry '$word'";
+                        } elsif ($last_word gt $word) {
+                            die "Wordlist is not sorted! ('$last_word' gt '$word')";
+                        }
+                    }
+                    $last_word = $word;
+
                     $stats{num_words}++;
                     $stats{num_words_contains_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
                     $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
