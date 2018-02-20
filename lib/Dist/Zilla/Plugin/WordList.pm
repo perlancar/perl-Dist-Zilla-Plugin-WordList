@@ -103,7 +103,7 @@ __PACKAGE__->meta->make_immutable;
 
 In F<dist.ini>:
 
- [Bencher::Scenario]
+ [WordList]
 
 
 =head1 DESCRIPTION
@@ -112,6 +112,10 @@ This plugin is to be used when building C<WordList::*> distribution. Currently
 it does the following:
 
 =over
+
+=item * Check that wordlist is sorted
+
+=item * Check that wordlist does not contain any duplicates
 
 =item * Replace C<# STATS> placeholder (which must exist) with word list statistics
 
@@ -123,3 +127,5 @@ it does the following:
 L<WordList>
 
 L<Pod::Weaver::Plugin::WordList>
+
+L<Dist::Zilla::Plugin::WordListC>
