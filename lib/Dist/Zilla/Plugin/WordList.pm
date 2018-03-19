@@ -59,7 +59,7 @@ sub munge_files {
                     my $word = shift;
 
                     # check that word is sorted
-                    if (defined $last_word) {
+                    if (!${"$package\::SORT"} && defined $last_word) {
                         if ($last_word eq $word) {
                             die "Duplicate entry '$word'";
                         } elsif ($last_word gt $word) {
