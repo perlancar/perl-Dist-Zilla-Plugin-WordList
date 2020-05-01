@@ -52,9 +52,9 @@ sub munge_files {
             my $total_len = 0;
             my %stats = (
                 num_words => 0,
-                num_words_contains_unicode => 0,
-                num_words_contains_whitespace => 0,
-                num_words_contains_nonword_chars => 0,
+                num_words_contain_unicode => 0,
+                num_words_contain_whitespace => 0,
+                num_words_contain_nonword_chars => 0,
                 shortest_word_len => undef,
                 longest_word_len => undef,
             );
@@ -74,9 +74,9 @@ sub munge_files {
                     $last_word = $word;
 
                     $stats{num_words}++;
-                    $stats{num_words_contains_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
-                    $stats{num_words_contains_whitespace}++ if $word =~ /\s/;
-                    $stats{num_words_contains_nonword_chars}++ if $word =~ /\W/u;
+                    $stats{num_words_contain_unicode}++ if $word =~ /[\x80-\x{10ffff}]/;
+                    $stats{num_words_contain_whitespace}++ if $word =~ /\s/;
+                    $stats{num_words_contain_nonword_chars}++ if $word =~ /\W/u;
                     my $len = __length_in_graphemes($word);
                     $total_len += $len;
                     $stats{shortest_word_len} = $len
@@ -91,6 +91,11 @@ sub munge_files {
             $content =~ s{^(#\s*STATS)$}{"our \%STATS = ".dmp(%stats)."; " . $1}em
                 or die "Can't replace #STATS for ".$file->name.", make sure you put the #STATS placeholder in modules";
             $self->log(["replacing #STATS for %s", $file->name]);
+
+            # old alias, for backward compat
+            $stats{num_words_contains_unicode} = $stats{num_words_contain_unicode};
+            $stats{num_words_contains_whitespace} = $stats{num_words_contain_whitespace};
+            $stats{num_words_contains_nonword_chars} = $stats{num_words_contain_nonword_chars};
 
             $file->content($content);
         }
