@@ -83,14 +83,14 @@ sub munge_files {
                 });
             $stats{avg_word_len} = $total_len / $stats{num_words} if $total_len;
 
-            $content =~ s{^(#\s*STATS)$}{"our \%STATS = ".dmp(%stats)."; " . $1}em
-                or die "Can't replace #STATS for ".$file->name.", make sure you put the #STATS placeholder in modules";
-            $self->log(["replacing #STATS for %s", $file->name]);
-
             # old alias, for backward compat
             $stats{num_words_contains_unicode} = $stats{num_words_contain_unicode};
             $stats{num_words_contains_whitespace} = $stats{num_words_contain_whitespace};
             $stats{num_words_contains_nonword_chars} = $stats{num_words_contain_nonword_chars};
+
+            $content =~ s{^(#\s*STATS)$}{"our \%STATS = ".dmp(%stats)."; " . $1}em
+                or die "Can't replace #STATS for ".$file->name.", make sure you put the #STATS placeholder in modules";
+            $self->log(["replacing #STATS for %s", $file->name]);
 
             $file->content($content);
         }
