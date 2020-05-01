@@ -1,6 +1,8 @@
 package Dist::Zilla::Plugin::WordList;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.014;
