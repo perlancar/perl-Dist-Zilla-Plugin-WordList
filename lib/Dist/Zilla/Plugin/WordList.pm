@@ -11,7 +11,6 @@ use Moose;
 use namespace::autoclean;
 
 use Data::Dmp;
-use WordList::Namespace qw(is_actual_wordlist_module);
 
 with (
     'Dist::Zilla::Role::FileMunger',
@@ -37,10 +36,6 @@ sub munge_files {
 
         my $package_pm = $1;
         my $package = $2; $package =~ s!/!::!g;
-        unless (is_actual_wordlist_module($package)) {
-            $self->log(["Module %s is not an actual wordlist module, skipped", $package]);
-            next;
-        }
 
         my $content = $file->content;
 
