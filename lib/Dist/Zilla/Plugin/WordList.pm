@@ -45,8 +45,13 @@ sub munge_files {
         my $content = $file->content;
 
         # Add statistics to %STATS variable
+      CREATE_STATS:
         {
             require $package_pm;
+            no strict 'refs';
+            my $param_spec = \%{"$package\::PARAMS"};
+            last CREATE_STATS if keys %$params;
+
             my $wl = $package->new;
 
             my $total_len = 0;
