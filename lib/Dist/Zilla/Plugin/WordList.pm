@@ -47,7 +47,7 @@ sub munge_files {
             require $package_pm;
             no strict 'refs';
             my $param_spec = \%{"$package\::PARAMS"};
-            last CREATE_STATS if keys %$params;
+            last CREATE_STATS if keys %$param_spec;
 
             my $wl = $package->new;
 
