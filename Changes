@@ -1,3 +1,16 @@
+0.056   2020-05-01  Released-By: PERLANCAR; Urgency: medium
+
+	- [bugfix] Code ordering.
+
+
+0.055   2020-05-01  Released-By: PERLANCAR; Urgency: medium
+
+	- Remove use of deprecated WordList::Namespace.
+
+	- Rename some stats keys for grammar reason, but keep the old name
+	  for backward compat.
+
+
 0.054   2018-03-23  Released-By: PERLANCAR
 
 	- Consult WordList::Namespace.
