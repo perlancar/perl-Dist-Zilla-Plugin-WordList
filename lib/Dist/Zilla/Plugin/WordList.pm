@@ -46,6 +46,11 @@ sub munge_files {
         {
             require $package_pm;
             no strict 'refs';
+            my $stats = \%{"$package\::STATS"};
+            last if keys %$stats; # module creates its own stats, skip
+            my $no_stats = ${"$package\::NO_STATS"};
+            last if $no_stats; # module does not want stats, skip
+
             my $param_spec = \%{"$package\::PARAMS"};
             last CREATE_STATS if keys %$param_spec;
 
