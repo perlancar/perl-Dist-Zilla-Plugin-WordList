@@ -2,3 +2,4 @@ Dist-Zilla-Plugin-WordList-*
 .build
 *~
 nytprof*
+.DS_Store
